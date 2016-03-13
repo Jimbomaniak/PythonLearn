@@ -1,10 +1,10 @@
 books = []
+LIST_ACTION = '1'
+ADD_ACTION = '2'
+EXIT = '3'
 while True:
     print('Что хотим делать?\n Добавить книгу введите 1, Посмотреть список книг введите 2, Для завершения нажмите 3')
     enter = input()
-    LIST_ACTION = '1'
-    ADD_ACTION = '2'
-    EXIT = '3'
     if enter == LIST_ACTION:
         print('Введите имя новой книги')
         newbook = input()
@@ -15,19 +15,15 @@ while True:
         print('Введите информацию о книге')
         information = input()
         books.append({'author' : author, 'title' : newbook, 'year': year, 'info': information})
-        print(books)
     elif enter == ADD_ACTION:
         for number, book in enumerate(books):
             print(number, book['title'])
-        try:
             number = int(input('Введите номер книги,для получения информации о ней: '))
+        try:
             print('Автор и название книги: {author} {title}\n Год издания: {year}\n Информация о книге: {info}'.format(**books[number]))
-        except:
-            ValueError
-            print('Такого номера книги несуществует')
+        except IndexError:
+            print('Такого номера книги не существует')
     elif enter == EXIT:
         print('До свидания')
         break
-
-
 
