@@ -1,3 +1,4 @@
+import pickle
 books = []
 LIST_ACTION = '1'
 ADD_ACTION = '2'
@@ -15,7 +16,11 @@ while True:
         print('Введите информацию о книге')
         information = input()
         books.append({'author' : author, 'title' : newbook, 'year': year, 'info': information})
+        with open('books.pickle', 'wb') as f:
+            pickle.dump(books, f)
     elif enter == ADD_ACTION:
+        with open('books.pickle', 'rb') as f:
+            books = pickle.load(f)
         for number, book in enumerate(books):
             print(number, book['title'])
             number = int(input('Введите номер книги,для получения информации о ней: '))
@@ -26,4 +31,3 @@ while True:
     elif enter == EXIT:
         print('До свидания')
         break
-
