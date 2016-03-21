@@ -11,7 +11,7 @@ def load_data():
         books = json.load(files)
         files.close()
         print('Библиотека загружена')
-    except json.decoder.JSONDecodeError:
+    except (json.decoder.JSONDecodeError, FileNotFoundError):
         files = open('data.json', 'w')
         files.close
         books = []
