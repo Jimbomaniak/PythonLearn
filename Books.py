@@ -1,11 +1,32 @@
-books = []
-LIST_ACTION = '1'
-ADD_ACTION = '2'
+import json
+
+def save_data(bookslist):
+    with open('data.json', 'w') as files:
+        json.dump(bookslist, files)
+    print('Библиотека сохранена')
+
+def load_data():
+    try:
+        files = open('data.json', 'r+')
+        books = json.load(files)
+        files.close()
+        print('Библиотека загружена')
+    except json.decoder.JSONDecodeError:
+        files = open('data.json', 'w')
+        files.close
+        books = []
+        print('Библиотека пустая')
+    return books
+
+ADD_ACTION = '1'
+LIST_ACTION = '2'
 EXIT = '3'
+books = load_data()
+
 while True:
-    print('Что хотим делать?\n Добавить книгу введите 1, Посмотреть список книг введите 2, Для завершения нажмите 3')
+    print('Что хотим делать?\n 1 - Добавить книгу\n 2 - Посмотреть список книг\n 3 - Сохранить и Выйти ')
     enter = input()
-    if enter == LIST_ACTION:
+    if enter == ADD_ACTION:
         print('Введите имя новой книги')
         newbook = input()
         print('Введите автора книги')
@@ -15,15 +36,18 @@ while True:
         print('Введите информацию о книге')
         information = input()
         books.append({'author' : author, 'title' : newbook, 'year': year, 'info': information})
-    elif enter == ADD_ACTION:
+    elif enter == LIST_ACTION:
         for number, book in enumerate(books):
             print(number, book['title'])
-            number = int(input('Введите номер книги,для получения информации о ней: '))
+        number = int(input('Введите номер книги,для получения информации о ней: '))
         try:
             print('Автор и название книги: {author} {title}\n Год издания: {year}\n Информация о книге: {info}'.format(**books[number]))
         except IndexError:
             print('Такого номера книги не существует')
     elif enter == EXIT:
+        save_data(books)
         print('До свидания')
         break
+
+
 
