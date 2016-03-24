@@ -27,15 +27,11 @@ while True:
     print('Что хотим делать?\n 1 - Добавить книгу\n 2 - Посмотреть список книг\n 3 - Сохранить и Выйти ')
     enter = input()
     if enter == ADD_ACTION:
-        print('Введите имя новой книги')
-        newbook = input()
-        print('Введите автора книги')
-        author = input()
-        print('Введите год издания')
-        year = input()
-        print('Введите информацию о книге')
-        information = input()
-        books.append({'author' : author, 'title' : newbook, 'year': year, 'info': information})
+        title = input('Введите имя новой книги: ')
+        author = input('Введите автора книги: ')
+        year = input('Введите год издания: ')
+        info = input('Введите информацию о книге')
+        books.append({'author' : author, 'title' : title, 'year': year, 'info': info})
     elif enter == LIST_ACTION:
         for number, book in enumerate(books):
             print(number, book['title'])
