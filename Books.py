@@ -27,7 +27,7 @@ books = load_data()
 
 while True:
     enter = input('Что хотим делать?\n 1 - Добавить книгу\n \
-    2 - Посмотреть список книг\n 3 - Сохранить и Выйти\n')
+2 - Посмотреть список книг\n 3 - Сохранить и Выйти\n')
     if enter == ADD_ACTION:
         title = input('Введите имя новой книги: ')
         author = input('Введите автора книги: ')
@@ -39,11 +39,10 @@ while True:
         for number, book in enumerate(books):
             print(number, book['title'])
         number = int(input('Введите номер книги,\
-               для получения информации о ней: '))
+для получения информации о ней: '))
         try:
-            print('Автор и название книги: {author} {title}\n \
-            Год издания: {year}\n \
-            Информация о книге: {info}'.format(**books[number]))
+            print('Автор и название книги: {author} {title}\n\
+Год издания: {year}\nИнформация о книге: {info}'.format(**books[number]))
         except IndexError:
             print('Такого номера книги не существует')
     elif enter == EXIT:
