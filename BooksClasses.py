@@ -17,7 +17,7 @@ class Books(object):
 
     def __str__(self):
         return 'Автор книги: {0.author}\nНазвание книги: {0.title}\n \
-Год издания: {0.year}\nОписание книги: {0.info}'.format(self)
+                Год издания: {0.year}\n Описание книги: {0.info}'.format(self)
 
 
 class Library(Books):
@@ -71,7 +71,7 @@ class Menu(Library):
     def mainMenu(self):
         while True:
             choice = input('ГЛАВНОЕ МЕНЮ\n 1. Создать библиотеку\n \
-2. Загрузить библиотеку\n 3. Выйти из программы\n ')
+                2. Загрузить библиотеку\n 3. Выйти из программы\n ')
             if choice == CREATE_LIB:
                 print('Создание библиотеки....')
                 global lib_name
@@ -90,7 +90,8 @@ class Menu(Library):
     def subMenu(self):
         while True:
             choice = input('МЕНЮ РАБОТЫ С БИБЛИОТЕКОЙ\n 1.Добавить книгу в библиотеку\n \
-2.Вывести список книг в библиотеке\n 3.Сохранить изменения в библиотеке\n')
+                            2.Вывести список книг в библиотеке\n \
+                            3.Сохранить изменения в библиотеке\n')
             if choice == ADD_BOOK:
                 print('Добавление новой книги')
                 self.addBook()
