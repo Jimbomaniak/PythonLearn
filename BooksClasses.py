@@ -2,22 +2,25 @@ import json
 CREATE_LIB = '1'
 LOAD_LIB = '2'
 EXIT = '3'
-ADD_BOOK = '11'
-SHOW_BOOKS = '22'
-SAVE_LIB = '33'
+ADD_BOOK = '1'
+SHOW_BOOKS = '2'
+SAVE_LIB = '3'
 books = []
 
-class Books():
-    def __init__ (self, author=None, title=None, year=None, info=None):
+
+class Books(object):
+    def __init__(self, author=None, title=None, year=None, info=None):
         self.author = author
         self.title = title
         self.year = year
         self.info = info
 
-    def showInfo(self):
-        print('Автор книги: {0.author}\nНазвание книги: {0.title}\nГод издания: {0.year}\nОписание книги: {0.info}'.format(self))
+    def __str__(self):
+        return 'Автор книги: {0.author}\nНазвание книги: {0.title}\n \
+Год издания: {0.year}\nОписание книги: {0.info}'.format(self)
 
-class Library():
+
+class Library(Books):
     def createLibrary(self, lib_name):
         lib = open('{0}.json'.format(lib_name), 'w')
         lib.close()
@@ -29,7 +32,7 @@ class Library():
             books = json.load(lib)
             print('Библиотека загружена')
             return books
-        except  FileNotFoundError:
+        except FileNotFoundError:
             print('Такой библиотеки еще не существует')
         except json.decoder.JSONDecodeError:
             print('Библиотека пустая')
@@ -41,16 +44,16 @@ class Library():
         print('Библиотека сохранена')
 
     def addBook(self):
-        author=input('Автор книги: ')
-        title=input('Название книги: ')
+        author = input('Автор книги: ')
+        title = input('Название книги: ')
         while True:
             try:
-                year=int(input('Год издания: '))
+                year = int(input('Год издания: '))
             except ValueError:
                 print('Год должен быть числом(например 1892)')
             else:
                 break
-        info=input('Информация о книге: ')
+        info = input('Информация о книге: ')
         books.append(Books(author, title, year, info))
         return books
 
@@ -58,15 +61,17 @@ class Library():
         if not books:
             print('В библиотеке еще нету книг')
         else:
-            for number,book in enumerate(books):
-                print(number,'{0.author} - {0.title}'.format(book))
+            for number, book in enumerate(books):
+                print(number, '{0.author} - {0.title}'.format(book))
             choice = int(input('Вывести информацию о книге под номером: '))
-            Books.showInfo(books[choice])
+            print(books[choice])
 
-class Menu(Library, Books):
+
+class Menu(Library):
     def mainMenu(self):
         while True:
-            choice = input('ГЛАВНОЕ МЕНЮ\n 1. Создать библиотеку\n 2. Загрузить библиотеку\n 3. Выйти из программы\n ')
+            choice = input('ГЛАВНОЕ МЕНЮ\n 1. Создать библиотеку\n \
+2. Загрузить библиотеку\n 3. Выйти из программы\n ')
             if choice == CREATE_LIB:
                 print('Создание библиотеки....')
                 global lib_name
@@ -84,7 +89,8 @@ class Menu(Library, Books):
 
     def subMenu(self):
         while True:
-            choice = input('МЕНЮ РАБОТЫ С БИБЛИОТЕКОЙ\n 11. Добавить книгу в библиотеку\n 22. Вывести список книг в библиотеке\n 33. Сохранить изменения в библиотеке\n ')
+            choice = input('МЕНЮ РАБОТЫ С БИБЛИОТЕКОЙ\n 1.Добавить книгу в библиотеку\n \
+2.Вывести список книг в библиотеке\n 3.Сохранить изменения в библиотеке\n')
             if choice == ADD_BOOK:
                 print('Добавление новой книги')
                 self.addBook()
