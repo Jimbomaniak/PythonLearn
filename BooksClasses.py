@@ -26,8 +26,7 @@ class Library(Books):
         print('Библиотека создана')
 
     def loadLibrary(self):
-        newbooks = []
-        lib_name = input('Напишите название библиотеки для загрузки: ')
+        newbooks = [] # список в котором будут  объекты класса , извлеченные из файла словарями и переданные классу Books
         try:
             with open('{0}.json'.format(lib_name), 'r+') as file:
                 mylist = json.load(file)
@@ -37,7 +36,7 @@ class Library(Books):
                     return newbooks
         except (json.decoder.JSONDecodeError, FileNotFoundError):
             print('Такой библиотеки не существует')
-            raise NameError('Не загрузилась библиотека')
+            raise NameError('Не загрузилась библиотека') # Генерирует ошибку для возвращения в основное меню
 
     def saveLibrary(self, lib_name):
         mylist = []
@@ -90,11 +89,11 @@ class Menu(Library):
                 self.subMenu(books)
             elif choice == LOAD_LIB:
                 print('Загрузка библиотеки...')
+                lib_name = input('Напишите название библиотеки для загрузки: ')
                 try:
-                    libr = self.loadLibrary()
+                    libr = self.loadLibrary() # - загруженная библиотека в виде [class.object1, class.object2]
                 except NameError:
                     continue
-
                 self.subMenu(libr)
             elif choice == EXIT:
                 print('Завершение программы')
