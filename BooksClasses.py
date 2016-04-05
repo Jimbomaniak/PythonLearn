@@ -6,7 +6,6 @@ books = []
 
 
 class Books(object):
-    '''Класс создания книг'''
     def __init__(self, author=None, title=None, year=None, info=None):
         self.author = author
         self.title = title
@@ -14,104 +13,102 @@ class Books(object):
         self.info = info
 
     def __str__(self):
-        return 'Автор книги: {0.author}\nНазвание книги: {0.title}\n\
-Год издания: {0.year}\nОписание книги: {0.info}'.format(self)
+        return 'Author: {0.author}\nName: {0.title}\n\
+Year: {0.year}\nInformation: {0.info}'.format(self)
 
 
 class Library(Books):
-    '''Класс библиотеки - работа с книгами'''
-    def createLibrary(self, lib_name):
+    def create_library(self, lib_name):
         lib = open('{0}.json'.format(lib_name), 'w+')
         lib.close()
-        print('Библиотека создана')
+        print('Library created')
 
-    def loadLibrary(self):
+    def load_library(self):
         newbooks = [] # список в котором будут  объекты класса , извлеченные из файла словарями и переданные классу Books
         try:
             with open('{0}.json'.format(lib_name), 'r+') as file:
                 mylist = json.load(file)
                 for book in mylist:
                     newbooks.append(Books(**book))
-                    print('Библиотека {0} загружена'.format(lib_name))
+                    print('Labrary {0} loaded'.format(lib_name))
                     return newbooks
         except (json.decoder.JSONDecodeError, FileNotFoundError):
-            print('Такой библиотеки не существует')
-            raise NameError('Не загрузилась библиотека') # Генерирует ошибку для возвращения в основное меню
+            print('Such library not exist')
+            raise NameError('Library not loaded') # Генерирует ошибку для возвращения в основное меню
 
-    def saveLibrary(self, lib_name):
+    def save_library(self, lib_name):
         mylist = []
         for book in books:
             mylist.append(book.__dict__)
         with open('{0}.json'.format(lib_name), 'w+') as f:
             json.dump(mylist, f)
 
-    def addBook(self):
-        author = input('Автор книги: ')
-        title = input('Название книги: ')
+    def add_book(self):
+        author = input('Book Author: ')
+        title = input('Book Name: ')
         while True:
             try:
-                year = int(input('Год издания: '))
+                year = int(input('Book Year: '))
             except ValueError:
-                print('Год должен быть числом(например 1892)')
+                print('Year must be number(example: 1892)')
             else:
                 break
-        info = input('Информация о книге: ')
+        info = input('Book Information: ')
         books.append(Books(author, title, year, info))
         return books
 
-    def showListOfBooks(self, books):
+    def show_list_of_books(self, books):
         if not books:
-            print('В библиотеке еще нету книг')
+            print('Library do not have books yet')
         else:
             for number, book in enumerate(books):
                 print(number, '{0.author} - {0.title}'.format(book))
             while True:
                 try:
-                    choice = int(input('Вывести информацию о книге под номером: '))
+                    choice = int(input('Show information about book with number: '))
                     print(books[choice])
                     break
                 except ValueError:
-                    print('Введите число')
+                    print('Enter number')
                 except IndexError:
-                    print('Такого номера нету в списке')
+                    print('Such number dont exist')
 
 
 class Menu(Library):
-    '''Класс Меню Программы'''
-    def mainMenu(self):
+    def main_menu(self):
         while True:
-            choice = input('ГЛАВНОЕ МЕНЮ\n 1. Создать библиотеку\n 2. Загрузить библиотеку\n 3. Выйти из программы\n ')
+            choice = input('MAIN MENU\n 1. Create Library\n 2. Load Library\n 3. Exit\n ')
             if choice == CREATE_LIB:
-                print('Создание библиотеки....')
+                print('Creation of library....')
                 global lib_name
-                lib_name = input('Напишите название новой библиотеки: ')
-                self.createLibrary(lib_name)
-                self.subMenu(books)
+                lib_name = input('Write name for new library: ')
+                self.create_library(lib_name)
+                self.submenu(books)
             elif choice == LOAD_LIB:
-                print('Загрузка библиотеки...')
-                lib_name = input('Напишите название библиотеки для загрузки: ')
+                print('Library loading...')
+                lib_name = input('Write name of library to load: ')
                 try:
-                    libr = self.loadLibrary() # - загруженная библиотека в виде [class.object1, class.object2]
+                    libr = self.load_library() # - загруженная библиотека в виде [class.object1, class.object2]
                 except NameError:
                     continue
-                self.subMenu(libr)
+                self.submenu(libr)
             elif choice == EXIT:
-                print('Завершение программы')
+                print('Exit.')
                 break
 
-    def subMenu(self, libr):
+    def submenu(self, libr):
         while True:
-            choice = input('МЕНЮ РАБОТЫ С БИБЛИОТЕКОЙ\n 1.Добавить книгу в библиотеку\n 2.Вывести список книг в библиотеке\n 3.Сохранить изменения в библиотеке\n')
+            choice = input('LIBRARY MENU\n 1.Add book \n 2.Show list of books\n 3.Save changes\n')
             if choice == ADD_BOOK:
-                print('Добавление новой книги')
-                self.addBook()
+                print('Adding new book...')
+                self.add_book()
             elif choice == SHOW_BOOKS:
-                print('Вывод списка книг в библиотеке')
-                self.showListOfBooks(libr)
+                print('Showing list of books...')
+                self.show_list_of_books(libr)
             elif choice == SAVE_LIB:
-                self.saveLibrary(lib_name)
-                print('Библиотека сохранена')
-                choice = input('1.Продолжить\n2.Выход в ГЛАВНОЕ МЕНЮ\n')
+                self.save_library(lib_name)
+                print('Library saved.')
+                choice = input('1.Continue\n2.Return to MAIN MENU\n')
                 if choice == CONT:
                     continue
                 elif choice == BACK:
@@ -119,22 +116,6 @@ class Menu(Library):
 
 if __name__ == '__main__':
     menu = Menu()
-    menu.mainMenu()
+    menu.main_menu()
 
 
-'''АЛГОРИТМ:
-1. Создание Библиотеки
-    1.2 Добавление книги в библиотеку
-        1.2.1 Добавление информации о книге(название автор год ифнормация)
-    1.3 Вывод пронумерованного списка книги
-        1.3.1 Выбор из этого списка нужно книги по номеру
-        1.3.2 Показ информации о выбранной книге
-        1.3.3 Возврат в 1.2
-    1.4 Сохранение созданной библиотеки
-2. Отрытите библиотеки
-    2.1 Ввод названия библиотеки
-    2.2 Поиск по названию файла:
-        2.2.1.Если файл существует => открытие файла => переход в подменю 1.2
-        2.2.2 Если файла нету => Вывод сообщения - Такой библиотеки не существует и возврат к пункту 2.1
-    2.3 Возврат к основому меню
-3. Выход из программы '''
