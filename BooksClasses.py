@@ -5,7 +5,7 @@ EXIT = SAVE_LIB = '3'
 books = []
 
 
-class Books(object):
+class Book():
     def __init__(self, author=None, title=None, year=None, info=None):
         self.author = author
         self.title = title
@@ -17,7 +17,7 @@ class Books(object):
 Year: {0.year}\nInformation: {0.info}'.format(self)
 
 
-class Library(Books):
+class Library():
     def create_library(self, lib_name):
         lib = open('{0}.json'.format(lib_name), 'w+')
         lib.close()
@@ -29,7 +29,7 @@ class Library(Books):
             with open('{0}.json'.format(lib_name), 'r+') as file:
                 mylist = json.load(file)
                 for book in mylist:
-                    newbooks.append(Books(**book))
+                    newbooks.append(Book(**book))
                     print('Labrary {0} loaded'.format(lib_name))
                     return newbooks
         except (json.decoder.JSONDecodeError, FileNotFoundError):
@@ -54,7 +54,7 @@ class Library(Books):
             else:
                 break
         info = input('Book Information: ')
-        books.append(Books(author, title, year, info))
+        books.append(Book(author, title, year, info))
         return books
 
     def show_list_of_books(self, books):
@@ -74,7 +74,7 @@ class Library(Books):
                     print('Such number dont exist')
 
 
-class Menu(Library):
+class Menu():
     def main_menu(self):
         while True:
             choice = input('MAIN MENU\n 1. Create Library\n 2. Load Library\n 3. Exit\n ')
@@ -82,13 +82,13 @@ class Menu(Library):
                 print('Creation of library....')
                 global lib_name
                 lib_name = input('Write name for new library: ')
-                self.create_library(lib_name)
+                Library.create_library(self,lib_name)
                 self.submenu(books)
             elif choice == LOAD_LIB:
                 print('Library loading...')
                 lib_name = input('Write name of library to load: ')
                 try:
-                    libr = self.load_library() # - загруженная библиотека в виде [class.object1, class.object2]
+                    libr = Library.load_library(self) # - загруженная библиотека в виде [class.object1, class.object2]
                 except NameError:
                     continue
                 self.submenu(libr)
@@ -101,12 +101,12 @@ class Menu(Library):
             choice = input('LIBRARY MENU\n 1.Add book \n 2.Show list of books\n 3.Save changes\n')
             if choice == ADD_BOOK:
                 print('Adding new book...')
-                self.add_book()
+                Library.add_book(self)
             elif choice == SHOW_BOOKS:
                 print('Showing list of books...')
-                self.show_list_of_books(libr)
+                Library.show_list_of_books(self,libr)
             elif choice == SAVE_LIB:
-                self.save_library(lib_name)
+                Library.save_library(self,lib_name)
                 print('Library saved.')
                 choice = input('1.Continue\n2.Return to MAIN MENU\n')
                 if choice == CONT:
@@ -117,5 +117,3 @@ class Menu(Library):
 if __name__ == '__main__':
     menu = Menu()
     menu.main_menu()
-
-
