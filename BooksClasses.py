@@ -82,7 +82,7 @@ class Menu():
                 print('Creation of library....')
                 global lib_name
                 lib_name = input('Write name for new library: ')
-                Library.create_library(self,lib_name)
+                Library.create_library(self, lib_name)
                 self.submenu(books)
             elif choice == LOAD_LIB:
                 print('Library loading...')
@@ -104,9 +104,9 @@ class Menu():
                 Library.add_book(self)
             elif choice == SHOW_BOOKS:
                 print('Showing list of books...')
-                Library.show_list_of_books(self,libr)
+                Library.show_list_of_books(self, libr)
             elif choice == SAVE_LIB:
-                Library.save_library(self,lib_name)
+                Library.save_library(self, lib_name)
                 print('Library saved.')
                 choice = input('1.Continue\n2.Return to MAIN MENU\n')
                 if choice == CONT:
